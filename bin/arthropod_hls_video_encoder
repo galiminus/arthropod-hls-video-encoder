@@ -1,0 +1,44 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'aws-sdk-sqs'
+require 'arthropod'
+require 'arthropod_hls_video_encoder/encoder'
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: #{$PROGRAM_NAME} [options]"
+
+  opts.on("-q", "--queue [string]", "SQS queue name") do |q|
+    options[:queue] = q
+  end
+  opts.on("-i", "--access-key-id [string]", "AWS access key ID, default to the AWS_ACCESS_KEY_ID environment variable") do |i|
+    options[:access_key_id] = i
+  end
+  opts.on("-k", "--secret-access-key [string]", "AWS secret access key, default to the AWS_SECRET_ACCESS_KEY environment variable") do |k|
+    options[:secret_access_key] = k
+  end
+  opts.on("-r", "--region [string]", "AWS region, default to the AWS_REGION environment variable") do |r|
+    options[:region] = r
+  end
+end.parse!
+
+client = Aws::SQS::Client.new({
+  access_key_id: options[:access_key_id] || ENV["AWS_ACCESS_KEY_ID"],
+  secret_access_key: options[:secret_access_key] || ENV["AWS_SECRET_ACCESS_KEY"],
+  region: options[:region] || ENV["AWS_REGION"],
+})
+
+Arthropod::Server.pull(client: client, queue_name: options[:queue]) do |request|
+  ArthropodHlsVideoEncoder::Encoder.new({
+    video_url: request.body["video_url"],
+    root_dir: request.body["root_dir"],
+    aws_access_key_id: request.body["aws_access_key_id"],
+    aws_secret_access_key: request.body["aws_secret_access_key"],
+    region: request.body["region"],
+    endpoint: request.body["endpoint"],
+    host: request.body["host"],
+    bucket: request.body["bucket"],
+    profiles: request.body["profiles"]
+  }).perform!
+end
