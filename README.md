@@ -9,9 +9,9 @@ gem install arthropod_hls_video_encoder
 ## Usage
 
 Just run it with the required arguments.
-
 ```shell
 $ arthropod_hls_video_encoder -h
+
 Usage: arthropod_hls_video_encoder [options]
     -q, --queue [string]             SQS queue name
     -i, --access-key-id [string]     AWS access key ID, default to the AWS_ACCESS_KEY_ID environment variable
@@ -20,7 +20,6 @@ Usage: arthropod_hls_video_encoder [options]
 ```
 
 Example of client side call:
-
 ```ruby
 result = Arthropod::Client.push(queue_name: "hls_video_encoder", body: {
   video_url: "https://s3-#{ENV['S3_REGION']}.amazonaws.com/#{ENV['S3_BUCKET']}/#{medium.temporary_key}",
@@ -62,11 +61,11 @@ The result object is a follow.
 
 ```ruby
 {
-  key: perform_video_encoding!,
-  thumbnail_key: get_thumbnail!,
-  small_thumbnail_key: get_small_thumbnail!,
-  preview_key: get_preview!,
-  duration: get_duration!
+  key: "[string]",
+  thumbnail_key: "[string]",
+  small_thumbnail_key: "[string]",
+  preview_key: "[string]",
+  duration: "[string]"
 }
 ```
 
