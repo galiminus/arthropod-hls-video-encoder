@@ -123,8 +123,7 @@ module ArthropodHlsVideoEncoder
     end
 
     def call_command(command)
-      puts command
-      system(command)
+      system(command, out: File::NULL, err: File::NULL)
       raise if $?.to_i != 0
     end
 

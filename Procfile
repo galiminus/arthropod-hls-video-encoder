@@ -1,0 +1,1 @@
+worker: bin/arthropod_hls_video_encoder

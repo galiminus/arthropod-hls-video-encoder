@@ -29,16 +29,18 @@ client = Aws::SQS::Client.new({
   region: options[:region] || ENV["AWS_REGION"],
 })
 
-Arthropod::Server.pull(client: client, queue_name: options[:queue]) do |request|
-  ArthropodHlsVideoEncoder::Encoder.new({
-    video_url: request.body["video_url"],
-    root_dir: request.body["root_dir"],
-    aws_access_key_id: request.body["aws_access_key_id"],
-    aws_secret_access_key: request.body["aws_secret_access_key"],
-    region: request.body["region"],
-    endpoint: request.body["endpoint"],
-    host: request.body["host"],
-    bucket: request.body["bucket"],
-    profiles: request.body["profiles"]
-  }).perform!
+loop do
+  Arthropod::Server.pull(client: client, queue_name: options[:queue]) do |request|
+    ArthropodHlsVideoEncoder::Encoder.new({
+      video_url: request.body["video_url"],
+      root_dir: request.body["root_dir"],
+      aws_access_key_id: request.body["aws_access_key_id"],
+      aws_secret_access_key: request.body["aws_secret_access_key"],
+      region: request.body["region"],
+      endpoint: request.body["endpoint"],
+      host: request.body["host"],
+      bucket: request.body["bucket"],
+      profiles: request.body["profiles"]
+    }).perform!
+  end
 end
