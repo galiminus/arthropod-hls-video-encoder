@@ -30,7 +30,7 @@ client = Aws::SQS::Client.new({
 })
 
 loop do
-  Arthropod::Server.pull(client: client, queue_name: options[:queue]) do |request|
+  Arthropod::Server.pull(client: client, queue_name: options[:queue] || ENV["QUEUE_NAME"]) do |request|
     ArthropodHlsVideoEncoder::Encoder.new({
       video_url: request.body["video_url"],
       root_dir: request.body["root_dir"],
