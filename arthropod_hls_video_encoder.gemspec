@@ -24,6 +24,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'arthropod', '= 0.0.2'
   gem.add_dependency 'aws-sdk-sqs'
   gem.add_dependency 'fog-aws'
+  gem.add_dependency 'foreman'
 
   gem.add_development_dependency "byebug"
 end
