@@ -46,8 +46,8 @@ module ArthropodHlsVideoEncoder
       # Reencode
       ffmpeg_configurations = profiles.map { |profile| ffmpeg_configuration_for(profile) }.join(" ")
 
-      call_command("ffmpeg -i #{input_path} -pass 1 #{ffmpeg_configurations}")
-      call_command("ffmpeg -i #{input_path} -pass 2 #{ffmpeg_configurations}")
+      call_command("ffmpeg -i #{input_path} -pass 1 -passlogfile #{@wdir}/log #{ffmpeg_configurations}")
+      call_command("ffmpeg -i #{input_path} -pass 2 -passlogfile #{@wdir}/log #{ffmpeg_configurations}")
 
       # create index file
       indices = profiles.map do |profile|
