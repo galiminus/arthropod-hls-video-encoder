@@ -21,7 +21,7 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version = "~> 2.0"
 
-  gem.add_dependency 'arthropod', '= 0.0.2'
+  gem.add_dependency 'arthropod', '= 0.0.6'
   gem.add_dependency 'aws-sdk-sqs'
   gem.add_dependency 'fog-aws'
   gem.add_dependency 'foreman'
