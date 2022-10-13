@@ -57,7 +57,7 @@ result = Arthropod::Client.push(queue_name: "hls_video_encoder", body: {
 * `bucket`: your bucket name
 * `profiles`: the HLS profile you want to generate
 
-The result object is a follow.
+The result object is as follow.
 
 ```ruby
 {
